@@ -1,6 +1,8 @@
 import React from 'react-native'
 
-export default React.StyleSheet.create({
+const {StyleSheet, Animated} = React
+
+export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
