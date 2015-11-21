@@ -8,7 +8,13 @@ export default StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
 
-  poop: {
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'black',
+  },
+
+  buttonText: {
     fontSize: 100,
     textAlign: 'center',
     margin: 10,

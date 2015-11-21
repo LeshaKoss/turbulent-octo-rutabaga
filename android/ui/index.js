@@ -1,45 +1,31 @@
 import React from 'react-native'
+import Recorder from './recorder'
+import Draft from './draft'
+import User from './user'
+import scene from './scene'
 import style from './style'
 
-const {Text, View, Animated} = React
+const {Component, Navigator} = React
 
-export default class InstagramForSounds extends React.Component {
-  componentWillMount() {
-    const angle = new Animated.Value(0)
-    this.setState({angle})
-  }
-
-  componentDidMount() {
-    Animated.timing(
-      this.state.angle,
-      {
-        toValue: 10000,
-        duration: 10000
-      }
-    ).start()
-  }
-
+export default class Ui extends Component {
   render() {
-    const animation = {
-      transform: [
-        {rotate: this.state.angle.interpolate({
-          inputRange: [0, 1],
-          outputRange: [
-            '0deg', '360deg'
-          ],
-        })},
-      ],
-    }
+    return <Navigator
+      initialRoute={{stage: 'recorder'}}
+      renderScene={this._renderScene.bind(this)}
+      configureScene={() => scene}
+    />
+  }
 
-    return (
-      <View style={style.container}>
-        <Animated.View style={animation}>
-          <Text style={style.poop}>
-            💩
-          </Text>
-        </Animated.View>
-      </View>
-    );
+  _renderScene(route, navigator) {
+    debugger
+    switch (route.stage) {
+      case 'recorder':
+        return <Recorder navigator={navigator} />
+      case 'draft':
+        return <Draft navigator={navigator} />
+      case 'user':
+        return <User navigator={navigator} />
+    }
   }
 }
 
