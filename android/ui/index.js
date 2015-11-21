@@ -5,6 +5,8 @@ import scene from './scene'
 
 const {Component, Navigator} = React
 
+let records = []
+
 export default class Ui extends Component {
   render() {
     return <Navigator
@@ -18,11 +20,13 @@ export default class Ui extends Component {
     switch (route.stage) {
       case 'user':
         return <User
+          records={records}
           navigateToDraft={this._navigateToDraft.bind(this, navigator)}
         />
       case 'draft':
         return <Draft
           navigateToUser={this._navigateToUser.bind(this, navigator)}
+          createRecord={this._createRecord.bind(this)}
         />
     }
   }
@@ -33,6 +37,10 @@ export default class Ui extends Component {
 
   _navigateToUser(navigator) {
     navigator.pop()
+  }
+
+  _createRecord(record) {
+    records.push(record)
   }
 }
 

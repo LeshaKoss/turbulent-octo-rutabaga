@@ -9,5 +9,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'yellow',
   },
+
+  title: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
 })
 

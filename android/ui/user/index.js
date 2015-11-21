@@ -23,6 +23,7 @@ export default class User extends React.Component {
         />
       case 'recordList':
         return <RecordList
+          records={this.props.records}
           navigateToRecorder={this._navigateToRecorder.bind(this, navigator)}
         />
     }
