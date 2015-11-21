@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native'
+import React from 'react-native'
+
+const {StyleSheet} = React
 
 export default StyleSheet.create({
   view: {
@@ -8,7 +10,7 @@ export default StyleSheet.create({
   },
 
   text: {
-    fontSize: 100,
+    fontSize: 50,
     textAlign: 'center',
     margin: 10,
   },

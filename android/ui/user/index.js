@@ -1,21 +1,39 @@
 import React from 'react-native'
-import Button from '../button'
-import style from './style'
+import Recorder from './recorder/'
+import RecordList from './record_list/'
+import scene from './scene'
 
-const {View} = React
+const {Navigator} = React
 
 export default class User extends React.Component {
   render() {
-    debugger
-    return <View style={style.container}>
-      <Button onPress={this._onArrowPress.bind(this)}>
-        ⬅️
-      </Button>
-    </View>
+    return <Navigator
+      initialRoute={{stage: 'recorder'}}
+      renderScene={this._renderScene.bind(this)}
+      configureScene={() => scene}
+    />
   }
 
-  _onArrowPress() {
-    this.props.navigator.pop()
+  _renderScene(route, navigator) {
+    switch (route.stage) {
+      case 'recorder':
+        return <Recorder
+          navigateToDraft={this.props.navigateToDraft}
+          navigateToRecordList={this._navigateToRecordList.bind(this, navigator)}
+        />
+      case 'recordList':
+        return <RecordList
+          navigateToRecorder={this._navigateToRecorder.bind(this, navigator)}
+        />
+    }
+  }
+
+  _navigateToRecordList(navigator) {
+    navigator.push({stage: 'recordList'})
+  }
+
+  _navigateToRecorder(navigator) {
+    navigator.pop()
   }
 }
 
