@@ -7,13 +7,15 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'yellow',
+    backgroundColor: '#F5FCFF',
+    alignItems: 'stretch',
   },
 
-  title: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+  progress: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'green',
   },
 })
 

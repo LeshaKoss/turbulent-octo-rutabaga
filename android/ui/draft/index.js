@@ -1,20 +1,38 @@
 import React from 'react-native'
-import Button from '../button'
+import Button from '../_lib/button/'
 import style from './style'
 
-const {View} = React
+const {View, TextInput} = React
 
 export default class Draft extends React.Component {
+  componentWillMount() {
+    this.setState({title: ''})
+  }
+
   render() {
     return <View style={style.container}>
-      <Button onPress={this._onArrowPress.bind(this)}>
-        ⬅️
+      <TextInput
+        style={style.title}
+        onChangeText={(title) => this.setState({title})}
+        value={this.state.title}
+      />
+      <Button onPress={this._onAccept.bind(this)}>
+        ✔️
+      </Button>
+      <Button onPress={this._onCancel.bind(this)}>
+        ✖️
       </Button>
     </View>
   }
 
-  _onArrowPress() {
-    this.props.navigator.pop()
+  _onAccept() {
+    const {title} = this.state
+    this.props.createRecord({title})
+    this.props.navigateToUser()
+  }
+
+  _onCancel() {
+    this.props.navigateToUser()
   }
 }
 
