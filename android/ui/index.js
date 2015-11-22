@@ -25,13 +25,15 @@ export default class Ui extends Component {
         />
       case 'draft':
         return <Draft
+          filename={this.state.filename}
           navigateToUser={this._navigateToUser.bind(this, navigator)}
           createRecord={this._createRecord.bind(this)}
         />
     }
   }
 
-  _navigateToDraft(navigator) {
+  _navigateToDraft(navigator, filename) {
+    this.setState({filename})
     navigator.push({stage: 'draft'})
   }
 

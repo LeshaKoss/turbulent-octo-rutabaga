@@ -23,7 +23,7 @@ export default class RecordList extends React.Component {
       <View style={style.list}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(row) => <Text>{row.title}</Text>}
+          renderRow={(row) => <Text>{JSON.stringify(row)}</Text>}
         />
       </View>
     </View>
