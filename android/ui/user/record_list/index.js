@@ -2,7 +2,7 @@ import React from 'react-native'
 import Button from '../../_lib/button/'
 import style from './style'
 
-const {View, Text, ListView} = React
+const {View, Text, ListView, NativeModules} = React
 
 export default class RecordList extends React.Component {
   componentWillMount() {
@@ -23,7 +23,14 @@ export default class RecordList extends React.Component {
       <View style={style.list}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(row) => <Text>{JSON.stringify(row)}</Text>}
+          renderRow={(row) => {
+            return <View>
+              <Button onPress={this._onPlay.bind(this, row.filename)}>
+                ⏯
+              </Button>
+              <Text>{row.title}</Text>
+            </View>
+          }}
         />
       </View>
     </View>
@@ -31,6 +38,12 @@ export default class RecordList extends React.Component {
 
   _onShowRecorder() {
     this.props.navigateToRecorder()
+  }
+
+  _onPlay(filename) {
+    NativeModules.Microphone.startPlaying(filename, () => {
+      this.setState({playing: true})
+    })
   }
 }
 
