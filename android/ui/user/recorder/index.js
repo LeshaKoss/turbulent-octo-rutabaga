@@ -2,13 +2,16 @@ import React from 'react-native'
 import Button from '../../_lib/button/'
 import style from './style'
 
-const {View} = React
+const {View, NativeModules} = React
 
 export default class Recorder extends React.Component {
   render() {
     return <View style={style.container}>
       <View style={style.progress}>
-        <Button onPress={this._onRecord.bind(this)}>
+        <Button
+          onPressIn={this._onRecordStart.bind(this)}
+          onPressOut={this._onRecordStop.bind(this)}
+        >
           🎤
         </Button>
       </View>
@@ -18,8 +21,17 @@ export default class Recorder extends React.Component {
     </View>
   }
 
-  _onRecord() {
-    this.props.navigateToDraft()
+  _onRecordStart() {
+    NativeModules.Microphone.startRecording((filename) => {
+      this.setState({recording: true})
+    })
+  }
+
+  _onRecordStop() {
+    NativeModules.Microphone.stopRecording((filename) => {
+      this.setState({recording: false})
+      this.props.navigateToDraft(filename)
+    })
   }
 
   _onShowAll() {

@@ -2,7 +2,7 @@ import React from 'react-native'
 import Button from '../_lib/button/'
 import style from './style'
 
-const {View, TextInput} = React
+const {View, TextInput, NativeModules} = React
 
 export default class Draft extends React.Component {
   componentWillMount() {
@@ -27,8 +27,13 @@ export default class Draft extends React.Component {
 
   _onAccept() {
     const {title} = this.state
-    this.props.createRecord({title})
-    this.props.navigateToUser()
+    NativeModules.Microphone.processTitle(title, (text) => {
+      this.props.createRecord({
+        title: text,
+        filename: this.props.filename
+      })
+      this.props.navigateToUser()
+    })
   }
 
   _onCancel() {
