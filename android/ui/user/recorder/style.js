@@ -27,4 +27,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+
+  showAllButton: {
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  showAllText: {
+    fontSize: 35,
+    margin: 15,
+  }
 })

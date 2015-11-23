@@ -19,9 +19,13 @@ export default class Recorder extends React.Component {
           </View>
         </TouchableOpacity>
       </View>
-      <Button onPress={this._onShowAll.bind(this)}>
-        Show all
-      </Button>
+      <TouchableOpacity onPress={this._onShowAll.bind(this)} >
+        <View style={style.showAllButton}>
+          <Text style={style.showAllText}>
+            Show all
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   }
 
