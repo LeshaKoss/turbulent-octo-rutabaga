@@ -1,23 +1,30 @@
 import React from 'react-native'
-import Button from '../../_lib/button/'
 import style from './style'
 
-const {View, NativeModules} = React
+const {View, NativeModules, TouchableOpacity, Text} = React
 
 export default class Recorder extends React.Component {
   render() {
     return <View style={style.container}>
       <View style={style.progress}>
-        <Button
+        <TouchableOpacity
           onPressIn={this._onRecordStart.bind(this)}
           onPressOut={this._onRecordStop.bind(this)}
         >
-          🎤
-        </Button>
+          <View style={style.button}>
+            <Text style={style.text}>
+              Record
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <Button onPress={this._onShowAll.bind(this)}>
-        Show all
-      </Button>
+      <TouchableOpacity onPress={this._onShowAll.bind(this)} >
+        <View style={style.showAllButton}>
+          <Text style={style.showAllText}>
+            Show all
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   }
 
@@ -38,4 +45,3 @@ export default class Recorder extends React.Component {
     this.props.navigateToRecordList()
   }
 }
-

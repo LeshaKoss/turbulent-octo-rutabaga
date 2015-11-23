@@ -3,11 +3,21 @@ import React from 'react-native'
 const {StyleSheet} = React
 
 export default StyleSheet.create({
+  button: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'black',
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
     alignItems: 'stretch',
   },
 
@@ -15,7 +25,17 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green',
+    backgroundColor: 'white',
   },
-})
 
+  showAllButton: {
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  showAllText: {
+    fontSize: 35,
+    margin: 15,
+  }
+})

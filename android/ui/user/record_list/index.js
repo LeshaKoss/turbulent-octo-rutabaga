@@ -1,8 +1,8 @@
 import React from 'react-native'
-import Button from '../../_lib/button/'
+import RecordItem from '../record_item/'
 import style from './style'
 
-const {View, Text, ListView, NativeModules} = React
+const {View, Text, ListView, NativeModules, TouchableOpacity} = React
 
 export default class RecordList extends React.Component {
   componentWillMount() {
@@ -17,19 +17,23 @@ export default class RecordList extends React.Component {
 
   render() {
     return <View style={style.container}>
-      <Button onPress={this._onShowRecorder.bind(this)}>
-        🎤
-      </Button>
+      <TouchableOpacity onPress={this._onShowRecorder.bind(this)} >
+        <View style={style.returnRecord}>
+          <View style={style.returnButton}>
+            <Text style={style.returnText}>
+              Record
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
       <View style={style.list}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(row) => {
-            return <View>
-              <Button onPress={this._onPlay.bind(this, row.filename)}>
-                ⏯
-              </Button>
-              <Text>{row.title}</Text>
-            </View>
+            return <RecordItem
+              title={row.title}
+              onPlay={this._onPlay.bind(this, row.filename)}
+            />
           }}
         />
       </View>
@@ -46,4 +50,3 @@ export default class RecordList extends React.Component {
     })
   }
 }
-
