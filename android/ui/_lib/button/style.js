@@ -15,4 +15,3 @@ export default StyleSheet.create({
     margin: 10,
   },
 })
-

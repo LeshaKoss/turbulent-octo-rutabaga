@@ -46,4 +46,3 @@ export default class RecordList extends React.Component {
     })
   }
 }
-

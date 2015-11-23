@@ -2,7 +2,7 @@ import React from 'react-native'
 import Button from '../_lib/button/'
 import style from './style'
 
-const {View, TextInput, NativeModules} = React
+const {View, TextInput, NativeModules, TouchableOpacity, Text} = React
 
 export default class Draft extends React.Component {
   componentWillMount() {
@@ -11,17 +11,30 @@ export default class Draft extends React.Component {
 
   render() {
     return <View style={style.container}>
-      <TextInput
-        style={style.title}
-        onChangeText={(title) => this.setState({title})}
-        value={this.state.title}
-      />
-      <Button onPress={this._onAccept.bind(this)}>
-        ✔️
-      </Button>
-      <Button onPress={this._onCancel.bind(this)}>
-        ✖️
-      </Button>
+      <View style={style.toolbar}>
+        <TouchableOpacity onPress={this._onCancel.bind(this)} >
+          <View style={style.button}>
+            <Text style={style.buttonText}>
+              ✖️
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this._onAccept.bind(this)} >
+          <View style={style.button}>
+            <Text style={style.buttonText}>
+              ✔️
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={style.form}>
+        <TextInput
+          style={style.title}
+          onChangeText={(title) => this.setState({title})}
+          value={this.state.title}
+          placeholder={'Title'}
+        />
+      </View>
     </View>
   }
 
@@ -40,4 +53,3 @@ export default class Draft extends React.Component {
     this.props.navigateToUser()
   }
 }
-
