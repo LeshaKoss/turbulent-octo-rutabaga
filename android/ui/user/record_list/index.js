@@ -1,5 +1,5 @@
 import React from 'react-native'
-import Button from '../../_lib/button/'
+import RecordItem from '../record_item/'
 import style from './style'
 
 const {View, Text, ListView, NativeModules, TouchableOpacity} = React
@@ -30,12 +30,10 @@ export default class RecordList extends React.Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(row) => {
-            return <View>
-              <Button onPress={this._onPlay.bind(this, row.filename)}>
-                ⏯
-              </Button>
-              <Text>{row.title}</Text>
-            </View>
+            return <RecordItem
+              title={row.title}
+              onPlay={this._onPlay.bind(this, row.filename)}
+            />
           }}
         />
       </View>
