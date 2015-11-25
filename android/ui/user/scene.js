@@ -6,4 +6,3 @@ export default Object.assign({}, Navigator.SceneConfigs.FloatFromBottom, {
   springTension: 100,
   springFriction: 1,
 })
-

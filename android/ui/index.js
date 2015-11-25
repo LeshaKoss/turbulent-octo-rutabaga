@@ -3,11 +3,11 @@ import User from './user/'
 import Draft from './draft/'
 import scene from './scene'
 
-const {Component, Navigator} = React
+const {Navigator} = React
 
-let records = []
+const records = []
 
-export default class Ui extends Component {
+export default class Ui extends React.Component {
   render() {
     return <Navigator
       initialRoute={{stage: 'user'}}
@@ -45,4 +45,3 @@ export default class Ui extends Component {
     records.push(record)
   }
 }
-

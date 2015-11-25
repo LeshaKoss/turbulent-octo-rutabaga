@@ -2,18 +2,19 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+'use strict'
 
-var React = require('react-native');
-var {
+import React from 'react-native'
+
+const {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-} = React;
+} = React
 
-var InstagramForSounds = React.createClass({
-  render: function() {
+class InstagramForSounds extends React.Component {
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -27,11 +28,11 @@ var InstagramForSounds = React.createClass({
           Cmd+D or shake for dev menu
         </Text>
       </View>
-    );
+    )
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -48,6 +49,6 @@ var styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-});
+})
 
-AppRegistry.registerComponent('InstagramForSounds', () => InstagramForSounds);
+AppRegistry.registerComponent('InstagramForSounds', () => InstagramForSounds)
