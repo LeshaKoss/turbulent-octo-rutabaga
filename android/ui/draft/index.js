@@ -1,5 +1,4 @@
 import React from 'react-native'
-import Button from '../_lib/button/'
 import style from './style'
 
 const {View, TextInput, NativeModules, TouchableOpacity, Text} = React
