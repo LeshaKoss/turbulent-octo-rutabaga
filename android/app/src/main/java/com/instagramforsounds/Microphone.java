@@ -46,7 +46,13 @@ public class Microphone extends ReactContextBaseJavaModule {
     @ReactMethod
     public void startRecording(Callback callback) throws IOException {
         mFilename = UUID.randomUUID().toString().replaceAll("-", "").concat(".3gp");
-        File root = new File(Environment.getExternalStorageDirectory(), "Sounds");
+
+        //TODO: remove "com.instagramforsounds" hardcoded package name
+        File root = new File(
+            Environment.getExternalStorageDirectory(),
+            "Android/data/com.instagramforsounds"
+        );
+
         if (!root.exists()) {
             root.mkdirs();
         }
