@@ -9,6 +9,10 @@ import android.util.Log;
 import android.os.Environment;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.net.Uri;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.content.Context;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,12 +35,15 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
     private String apiUrl = "http://192.168.1.138:5000";
+    private ReactApplicationContext context = null;
 
     @ReactMethod
     public void startPlaying(String filename, Callback callback) {
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(filename);
+            Uri sourceUri = Uri.parse(apiUrl + "/sounds/3e36d79a-1f71-49fb-9d20-3517c97739b9");
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.setDataSource(context, sourceUri);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
@@ -126,5 +133,6 @@ public class Microphone extends ReactContextBaseJavaModule {
 
     public Microphone(ReactApplicationContext reactContext) {
         super(reactContext);
+        context = reactContext;
     }
 }
