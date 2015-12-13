@@ -30,6 +30,7 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
+    private String apiUrl = "http://192.168.1.138:5000";
 
     @ReactMethod
     public void startPlaying(String filename, Callback callback) {
@@ -53,7 +54,7 @@ public class Microphone extends ReactContextBaseJavaModule {
     }
 
     private void sendToServer(File file) {
-        String url = "http://192.168.1.138:5000/upload";
+        String url = apiUrl + "/upload";
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(url);
