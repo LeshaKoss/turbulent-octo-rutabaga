@@ -3,11 +3,20 @@ package com.facebook.react.modules.microphone;
 import java.util.UUID;
 import java.io.IOException;
 import java.io.File;
+import java.io.FileInputStream;
 
 import android.util.Log;
 import android.os.Environment;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.ContentType;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -43,6 +52,21 @@ public class Microphone extends ReactContextBaseJavaModule {
         callback.invoke();
     }
 
+    private void sendToServer(File file) {
+        String url = "http://192.168.1.138:5000/upload";
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            MultipartEntity entity = new MultipartEntity();
+            entity.addPart("file", new FileBody(file));
+            httppost.setEntity(entity);
+
+            HttpResponse response = httpclient.execute(httppost);
+        } catch (Exception e) {
+            Log.e("sendToServer", e.toString());
+        }
+    }
+
     @ReactMethod
     public void startRecording(Callback callback) throws IOException {
         mFilename = UUID.randomUUID().toString().replaceAll("-", "").concat(".3gp");
@@ -70,6 +94,8 @@ public class Microphone extends ReactContextBaseJavaModule {
         mRecorder.prepare();
         mRecorder.start();
 
+
+
         callback.invoke(mFilename);
 
     }
@@ -78,6 +104,8 @@ public class Microphone extends ReactContextBaseJavaModule {
     public void stopRecording(Callback callback) {
         mRecorder.stop();
         mRecorder.release();
+
+        sendToServer(audioFile);
 
         mRecorder = null;
         String filename = mFilename;
