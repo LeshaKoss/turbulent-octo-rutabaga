@@ -5,16 +5,16 @@ import scene from './scene'
 
 const {Navigator} = React
 
-let records = []
 const _apiUrl = 'http://radiant-spire-1878.herokuapp.com/'
 
-let fetchList = () => {
-  fetch(_apiUrl + '/sounds')
-    .then((response) => response.json())
-    .then((data) => records = data.sounds)
-}
-
 export default class Ui extends React.Component {
+  componentWillMount() {
+    this.setState({
+      records: []
+    })
+    this._fetchList()
+  }
+
   render() {
     return <Navigator
       initialRoute={{stage: 'user'}}
@@ -27,7 +27,7 @@ export default class Ui extends React.Component {
     switch (route.stage) {
       case 'user':
         return <User
-          records={records}
+          records={this.state.records}
           navigateToDraft={this._navigateToDraft.bind(this, navigator)}
         />
       case 'draft':
@@ -40,9 +40,12 @@ export default class Ui extends React.Component {
   }
 
   _navigateToDraft(navigator, filename) {
-    fetchList()
-    this.setState({filename})
-    navigator.push({stage: 'draft'})
+    this
+      ._fetchList()
+      .then(() => {
+        this.setState({filename})
+        navigator.push({stage: 'draft'})
+      })
   }
 
   _navigateToUser(navigator) {
@@ -50,6 +53,14 @@ export default class Ui extends React.Component {
   }
 
   _createRecord(record) {
+    const {records} = this.state
     records.push(record)
+    this.setState({records})
+  }
+
+  _fetchList() {
+    return fetch(_apiUrl + '/sounds')
+      .then((response) => response.json())
+      .then((data) => this.setState({records: data.sounds}))
   }
 }
