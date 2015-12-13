@@ -6,7 +6,7 @@ import scene from './scene'
 const {Navigator} = React
 
 let records = []
-const _apiUrl = 'http://192.168.1.138:5000'
+const _apiUrl = 'http://radiant-spire-1878.herokuapp.com/'
 
 let fetchList = () => {
   fetch(_apiUrl + '/sounds')

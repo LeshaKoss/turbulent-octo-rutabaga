@@ -34,7 +34,7 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
-    private String apiUrl = "http://192.168.1.138:5000";
+    private String apiUrl = "http://radiant-spire-1878.herokuapp.com/";
     private ReactApplicationContext context = null;
 
     @ReactMethod
