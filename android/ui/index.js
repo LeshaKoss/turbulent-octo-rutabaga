@@ -5,7 +5,14 @@ import scene from './scene'
 
 const {Navigator} = React
 
-const records = []
+let records = []
+const _apiUrl = 'http://192.168.1.138:5000'
+
+let fetchList = () => {
+  fetch(_apiUrl + '/sounds')
+    .then((response) => response.json())
+    .then((data) => records = data.sounds)
+}
 
 export default class Ui extends React.Component {
   render() {
@@ -33,6 +40,7 @@ export default class Ui extends React.Component {
   }
 
   _navigateToDraft(navigator, filename) {
+    fetchList()
     this.setState({filename})
     navigator.push({stage: 'draft'})
   }

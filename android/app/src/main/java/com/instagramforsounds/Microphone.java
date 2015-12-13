@@ -41,7 +41,7 @@ public class Microphone extends ReactContextBaseJavaModule {
     public void startPlaying(String filename, Callback callback) {
         mPlayer = new MediaPlayer();
         try {
-            Uri sourceUri = Uri.parse(apiUrl + "/sounds/3e36d79a-1f71-49fb-9d20-3517c97739b9");
+            Uri sourceUri = Uri.parse(apiUrl + "/sounds/" + filename);
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.setDataSource(context, sourceUri);
             mPlayer.prepare();
@@ -102,10 +102,7 @@ public class Microphone extends ReactContextBaseJavaModule {
         mRecorder.prepare();
         mRecorder.start();
 
-
-
         callback.invoke(mFilename);
-
     }
 
     @ReactMethod
@@ -123,7 +120,7 @@ public class Microphone extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void processTitle(String input, Callback callback) {
-        callback.invoke(input.replace("LOL", "WUT"));
+        callback.invoke();
     }
 
     @Override
