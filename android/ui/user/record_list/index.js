@@ -33,6 +33,7 @@ export default class RecordList extends React.Component {
             return <RecordItem
               title={row.title}
               onPlay={this._onPlay.bind(this, row.filename)}
+              onStop={this._onStop.bind(this)}
             />
           }}
         />
@@ -44,9 +45,13 @@ export default class RecordList extends React.Component {
     this.props.navigateToRecorder()
   }
 
-  _onPlay(filename) {
-    NativeModules.Microphone.startPlaying(filename, () => {
-      this.setState({playing: true})
+  _onPlay(filename, callback, stopCallback) {
+    NativeModules.RecordModel.readById(filename, (stringUri) => {
+      NativeModules.Microphone.startPlaying(stringUri, callback, stopCallback)
     })
+  }
+
+  _onStop(callback) {
+    NativeModeules.Microphone.stopPlaying(callback)
   }
 }

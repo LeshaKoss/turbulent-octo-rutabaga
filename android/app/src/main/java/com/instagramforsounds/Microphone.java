@@ -34,49 +34,41 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
-    private String apiUrl = "http://radiant-spire-1878.herokuapp.com/";
     private ReactApplicationContext context = null;
 
     @ReactMethod
-    public void startPlaying(String filename, Callback callback) {
+    public void startPlaying(String stringUri, Callback onStart) {
+        final Callback onStopCallback = onStop;
+
         mPlayer = new MediaPlayer();
         try {
-            Uri sourceUri = Uri.parse(apiUrl + "/sounds/" + filename);
+            onStart.invoke();
+            Uri sourceUri = Uri.parse(stringUri);
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.setDataSource(context, sourceUri);
+            /* mPlayer.setOnCompletionListener(new OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    onStopCallback.invoke();
+                }
+            }); */
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            /*Log.e("prepare() failed");*/
+            // onError.invoke();
         }
-        callback.invoke();
     }
 
     @ReactMethod
-    public void stopPlaying(Callback callback) {
+    public void stopPlaying(Callback onStop) {
         mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
-        callback.invoke();
-    }
-
-    private void sendToServer(File file) {
-        String url = apiUrl + "/upload";
-        try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url);
-            MultipartEntity entity = new MultipartEntity();
-            entity.addPart("file", new FileBody(file));
-            httppost.setEntity(entity);
-
-            HttpResponse response = httpclient.execute(httppost);
-        } catch (Exception e) {
-            Log.e("sendToServer", e.toString());
-        }
+        onStop.invoke();
     }
 
     @ReactMethod
-    public void startRecording(Callback callback) throws IOException {
+    public void startRecording(Callback onStart) throws IOException {
         mFilename = UUID.randomUUID().toString().replaceAll("-", "").concat(".3gp");
 
         //TODO: remove "com.instagramforsounds" hardcoded package name
@@ -102,25 +94,18 @@ public class Microphone extends ReactContextBaseJavaModule {
         mRecorder.prepare();
         mRecorder.start();
 
-        callback.invoke(mFilename);
+        onStart.invoke(audioFile.getAbsolutePath());
     }
 
     @ReactMethod
-    public void stopRecording(Callback callback) {
+    public void stopRecording(Callback onStop) {
         mRecorder.stop();
         mRecorder.release();
-
-        sendToServer(audioFile);
 
         mRecorder = null;
         String filename = mFilename;
         mFilename = null;
-        callback.invoke(audioFile.getAbsolutePath());
-    }
-
-    @ReactMethod
-    public void processTitle(String input, Callback callback) {
-        callback.invoke();
+        onStop.invoke(audioFile.getAbsolutePath());
     }
 
     @Override

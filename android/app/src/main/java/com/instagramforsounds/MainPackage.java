@@ -1,4 +1,4 @@
-package com.facebook.react.modules.microphone;
+package com.instagramforsounds;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,12 +14,14 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import com.facebook.react.modules.microphone.Microphone;
+import com.facebook.react.modules.recordmodel.RecordModel;
 
-public class MicrophonePackage implements ReactPackage {
+public class MainPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-            new Microphone(reactContext)
+            new Microphone(reactContext),
+            new RecordModel(reactContext)
         );
     }
 
