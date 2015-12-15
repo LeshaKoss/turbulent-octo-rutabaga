@@ -38,17 +38,13 @@ export default class Draft extends React.Component {
   }
 
   _onAccept() {
-    const {title} = this.state
-    NativeModules.Microphone.processTitle(title, (text) => {
-      this.props.createRecord({
-        title: text,
-        filename: this.props.filename
-      })
-      this.props.navigateToUser()
+    this.props.createRecord({
+      title: this.state.title,
+      filename: this.props.filename
     })
   }
 
   _onCancel() {
-    this.props.navigateToUser()
+    this.props.cancelRecord()
   }
 }
