@@ -20,11 +20,11 @@ public class RecordModel extends ReactContextBaseJavaModule {
     private String URL_ROOT = "http://radiant-spire-1878.herokuapp.com/";
 
     @ReactMethod
-    public void create(String absolutePath, Callback onResponse) {
+    public void create(String absolutePath, String title, Callback onResponse) {
         File file = new File(absolutePath);
         RestClient client = new RestClient(URL_ROOT + "upload");
         try {
-            String response = client.executePostAndSendFile(file);
+            String response = client.executePostAndSendFile(file, title);
             onResponse.invoke(response);
         } catch (Exception e) {
             e.printStackTrace();

@@ -53,8 +53,8 @@ export default class Ui extends React.Component {
   _createRecord(navigator, record) {
     this._navigateToUser(navigator)
 
-    const {filename} = record
-    NativeModules.RecordModel.create(filename, () => {
+    const {filename, title} = record
+    NativeModules.RecordModel.create(filename, title, () => {
       this._updateList()
       // const {records} = this.state
       // records.push(record)
@@ -69,10 +69,12 @@ export default class Ui extends React.Component {
   _updateList(callback) {
     NativeModules.RecordModel.readList((response) => {
       const data = JSON.parse(response)
-      this.setState({records: data.sounds})
-      this.forceUpdate()
-      if (callback) {
-        callback()
+      if (data) {
+        this.setState({records: data.sounds})
+        this.forceUpdate()
+        if (callback) {
+          callback()
+        }
       }
     })
   }

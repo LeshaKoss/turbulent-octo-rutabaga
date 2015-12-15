@@ -22,6 +22,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
@@ -99,7 +100,7 @@ public class RestClient {
 
         }
 
-        public String executePostAndSendFile(File file){
+        public String executePostAndSendFile(File file, String title){
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
@@ -110,7 +111,11 @@ public class RestClient {
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
                 builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
+                String filename = file.getName();
+
+                String json = "{\"filename\":\"" + filename + "\",\"title\":\"" + title + "\"}";
                 builder.addPart("file", new FileBody(file));
+                builder.addTextBody("info", json, ContentType.APPLICATION_JSON);
                 // builder.addBinaryBody("file", file, ContentType.create("audio/3gp"), file.getName());
                 // builder.addTextBody("json", data.toString());
                 HttpEntity entity = builder.build();
