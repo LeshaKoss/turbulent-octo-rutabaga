@@ -3,11 +3,19 @@ import User from './user/'
 import Draft from './draft/'
 import scene from './scene'
 
-const {Navigator} = React
+const {Navigator, NativeModules} = React
 
-const records = []
+const _apiUrl = 'http://radiant-spire-1878.herokuapp.com/'
 
 export default class Ui extends React.Component {
+  componentWillMount() {
+    this.setState({
+      records: []
+    })
+
+    this._updateList()
+  }
+
   render() {
     return <Navigator
       initialRoute={{stage: 'user'}}
@@ -20,14 +28,14 @@ export default class Ui extends React.Component {
     switch (route.stage) {
       case 'user':
         return <User
-          records={records}
+          records={this.state.records}
           navigateToDraft={this._navigateToDraft.bind(this, navigator)}
         />
       case 'draft':
         return <Draft
           filename={this.state.filename}
-          navigateToUser={this._navigateToUser.bind(this, navigator)}
-          createRecord={this._createRecord.bind(this)}
+          createRecord={this._createRecord.bind(this, navigator)}
+          cancelRecord={this._cancelRecord.bind(this, navigator)}
         />
     }
   }
@@ -39,9 +47,33 @@ export default class Ui extends React.Component {
 
   _navigateToUser(navigator) {
     navigator.pop()
+    this._updateList()
   }
 
-  _createRecord(record) {
-    records.push(record)
+  _createRecord(navigator, record) {
+    this._navigateToUser(navigator)
+
+    const {filename} = record
+    NativeModules.RecordModel.create(filename, () => {
+      this._updateList()
+      // const {records} = this.state
+      // records.push(record)
+      // this.setState({records})
+    })
+  }
+
+  _cancelRecord(navigator) {
+    this._navigateToUser(navigator)
+  }
+
+  _updateList(callback) {
+    NativeModules.RecordModel.readList((response) => {
+      const data = JSON.parse(response)
+      this.setState({records: data.sounds})
+      this.forceUpdate()
+      if (callback) {
+        callback()
+      }
+    })
   }
 }

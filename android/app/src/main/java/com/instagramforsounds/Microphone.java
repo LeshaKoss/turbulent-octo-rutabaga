@@ -3,11 +3,24 @@ package com.facebook.react.modules.microphone;
 import java.util.UUID;
 import java.io.IOException;
 import java.io.File;
+import java.io.FileInputStream;
 
 import android.util.Log;
 import android.os.Environment;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.net.Uri;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.content.Context;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.ContentType;
 
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -21,30 +34,41 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
+    private ReactApplicationContext context = null;
 
     @ReactMethod
-    public void startPlaying(String filename, Callback callback) {
+    public void startPlaying(String stringUri, Callback onStart) {
+        final Callback onStopCallback = onStop;
+
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(filename);
+            onStart.invoke();
+            Uri sourceUri = Uri.parse(stringUri);
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.setDataSource(context, sourceUri);
+            /* mPlayer.setOnCompletionListener(new OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    onStopCallback.invoke();
+                }
+            }); */
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            /*Log.e("prepare() failed");*/
+            // onError.invoke();
         }
-        callback.invoke();
     }
 
     @ReactMethod
-    public void stopPlaying(Callback callback) {
+    public void stopPlaying(Callback onStop) {
         mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
-        callback.invoke();
+        onStop.invoke();
     }
 
     @ReactMethod
-    public void startRecording(Callback callback) throws IOException {
+    public void startRecording(Callback onStart) throws IOException {
         mFilename = UUID.randomUUID().toString().replaceAll("-", "").concat(".3gp");
 
         //TODO: remove "com.instagramforsounds" hardcoded package name
@@ -70,24 +94,18 @@ public class Microphone extends ReactContextBaseJavaModule {
         mRecorder.prepare();
         mRecorder.start();
 
-        callback.invoke(mFilename);
-
+        onStart.invoke(audioFile.getAbsolutePath());
     }
 
     @ReactMethod
-    public void stopRecording(Callback callback) {
+    public void stopRecording(Callback onStop) {
         mRecorder.stop();
         mRecorder.release();
 
         mRecorder = null;
         String filename = mFilename;
         mFilename = null;
-        callback.invoke(audioFile.getAbsolutePath());
-    }
-
-    @ReactMethod
-    public void processTitle(String input, Callback callback) {
-        callback.invoke(input.replace("LOL", "WUT"));
+        onStop.invoke(audioFile.getAbsolutePath());
     }
 
     @Override
@@ -97,5 +115,6 @@ public class Microphone extends ReactContextBaseJavaModule {
 
     public Microphone(ReactApplicationContext reactContext) {
         super(reactContext);
+        context = reactContext;
     }
 }
