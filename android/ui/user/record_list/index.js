@@ -47,7 +47,7 @@ export default class RecordList extends React.Component {
 
   _onPlay(filename, callback, stopCallback) {
     NativeModules.RecordModel.readById(filename, (stringUri) => {
-      NativeModules.Microphone.startPlaying(stringUri, callback, stopCallback)
+      NativeModules.Microphone.startPlaying(stringUri, callback)
     })
   }
 
