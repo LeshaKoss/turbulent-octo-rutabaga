@@ -38,20 +38,12 @@ public class Microphone extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void startPlaying(String stringUri, Callback onStart) {
-        final Callback onStopCallback = onStop;
-
         mPlayer = new MediaPlayer();
         try {
             onStart.invoke();
             Uri sourceUri = Uri.parse(stringUri);
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.setDataSource(context, sourceUri);
-            /* mPlayer.setOnCompletionListener(new OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    onStopCallback.invoke();
-                }
-            }); */
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
