@@ -52,6 +52,6 @@ export default class RecordList extends React.Component {
   }
 
   _onStop(callback) {
-    NativeModeules.Microphone.stopPlaying(callback)
+    NativeModules.Microphone.stopPlaying(callback)
   }
 }
