@@ -29,6 +29,7 @@ export default class Ui extends React.Component {
       case 'user':
         return <User
           records={this.state.records}
+          reload={this._updateList.bind(this)}
           navigateToDraft={this._navigateToDraft.bind(this, navigator)}
         />
       case 'draft':
