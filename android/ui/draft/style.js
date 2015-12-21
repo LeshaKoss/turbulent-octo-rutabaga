@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
 
   title: {
-    height: 40,
+    height: 60,
     fontSize: 25,
     borderColor: 'gray',
     borderWidth: 1,
