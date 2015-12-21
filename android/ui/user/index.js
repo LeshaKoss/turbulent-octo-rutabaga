@@ -31,6 +31,7 @@ export default class User extends React.Component {
 
   _navigateToRecordList(navigator) {
     navigator.push({stage: 'recordList'})
+    this.props.reload()
   }
 
   _navigateToRecorder(navigator) {
