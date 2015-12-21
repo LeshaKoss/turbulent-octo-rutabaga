@@ -52,6 +52,16 @@ public class Microphone extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void suddenlyStoppedPlaying(Callback onStop) {
+      final Callback callback = onStop;
+      mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+          public void onCompletion(MediaPlayer mp) {
+              callback.invoke();
+          }
+      });
+    }
+
+    @ReactMethod
     public void stopPlaying(Callback onStop) {
         mPlayer.stop();
         mPlayer.release();
