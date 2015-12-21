@@ -50,6 +50,7 @@ export default class RecordList extends React.Component {
       NativeModules.Microphone.startPlaying(stringUri, () => {
         callback()
         NativeModules.Microphone.suddenlyStoppedPlaying(stopPlayingCallback)
+        NativeModules.Microphone.playsNewSound(stopPlayingCallback)
       })
     })
   }

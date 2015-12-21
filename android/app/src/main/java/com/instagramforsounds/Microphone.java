@@ -35,9 +35,18 @@ public class Microphone extends ReactContextBaseJavaModule {
     private MediaPlayer mPlayer = null;
     private File audioFile = null;
     private ReactApplicationContext context = null;
+    private Callback stopPreviousSound = null;
 
     @ReactMethod
     public void startPlaying(String stringUri, Callback onStart) {
+        if (stopPreviousSound != null) {
+          mPlayer.stop();
+          mPlayer.release();
+          mPlayer = null;
+          stopPreviousSound.invoke();
+          stopPreviousSound = null;
+        }
+
         mPlayer = new MediaPlayer();
         try {
             onStart.invoke();
@@ -56,10 +65,17 @@ public class Microphone extends ReactContextBaseJavaModule {
       final Callback callback = onStop;
       mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
           public void onCompletion(MediaPlayer mp) {
+              stopPreviousSound = null;
               callback.invoke();
           }
       });
     }
+
+    @ReactMethod
+    public void playsNewSound(Callback callback) {
+        stopPreviousSound = callback;
+    }
+
 
     @ReactMethod
     public void stopPlaying(Callback onStop) {
