@@ -56,9 +56,6 @@ export default class Ui extends React.Component {
     const {filename, title} = record
     NativeModules.RecordModel.create(filename, title, () => {
       this._updateList()
-      // const {records} = this.state
-      // records.push(record)
-      // this.setState({records})
     })
   }
 

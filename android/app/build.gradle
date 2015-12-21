@@ -78,6 +78,26 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
+    signingConfigs {
+      release {
+          storeFile file("myreleasekey.keystore")
+          storePassword "password"
+          keyAlias "MyReleaseKey"
+          keyPassword "password"
+      }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 dependencies {

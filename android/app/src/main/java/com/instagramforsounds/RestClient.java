@@ -35,6 +35,7 @@ import java.io.File;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.HttpMultipartMode;
+import android.util.Log;
 
 public class RestClient {
 
@@ -82,6 +83,7 @@ public class RestClient {
                 response = httpClient.execute(httpPost);
                 HttpEntity entity1 = response.getEntity();
                 result = EntityUtils.toString(entity1);
+                Log.d("<- exceutePost", result);
                 return result;
                 //Toast.makeText(MainPage.this, result, Toast.LENGTH_LONG).show();
             } catch (UnsupportedEncodingException e) {
@@ -123,6 +125,7 @@ public class RestClient {
                 response = httpClient.execute(httpPost);
                 HttpEntity entity1 = response.getEntity();
                 result = EntityUtils.toString(entity1);
+                Log.d("<- exceutePostAndSendFile", result);
                 return result;
                 //Toast.makeText(MainPage.this, result, Toast.LENGTH_LONG).show();
             } catch (UnsupportedEncodingException e) {
@@ -146,6 +149,8 @@ public class RestClient {
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             try {
                 result = httpClient.execute(httpget, responseHandler);
+                Log.d("<- executeGet", result);
+                return result;
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -153,7 +158,7 @@ public class RestClient {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
             return result;
+
         }
 }
