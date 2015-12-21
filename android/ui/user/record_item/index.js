@@ -32,6 +32,10 @@ export default class RecordItem extends React.Component {
         () => {
           this.setState({playing: true})
           this.forceUpdate()
+        },
+        () => {
+          this.setState({playing: false})
+          this.forceUpdate()
         }
       )
     }
