@@ -40,9 +40,12 @@ public class Microphone extends ReactContextBaseJavaModule {
     @ReactMethod
     public void startPlaying(String stringUri, Callback onStart) {
         if (stopPreviousSound != null) {
-          mPlayer.stop();
-          mPlayer.release();
-          mPlayer = null;
+          if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+          }
+
           stopPreviousSound.invoke();
           stopPreviousSound = null;
         }
@@ -79,6 +82,7 @@ public class Microphone extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void stopPlaying(Callback onStop) {
+        stopPreviousSound = null;
         mPlayer.stop();
         mPlayer.release();
         mPlayer = null;
