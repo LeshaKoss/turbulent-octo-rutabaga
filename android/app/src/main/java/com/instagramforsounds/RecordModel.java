@@ -9,6 +9,7 @@ import com.facebook.react.bridge.Callback;
 
 import com.infotech.zeus.util.RestClient;
 import java.io.File;
+import android.util.Log;
 
 /*
  * An important note to the other developers:
@@ -43,6 +44,7 @@ public class RecordModel extends ReactContextBaseJavaModule {
         RestClient client = new RestClient(URL_ROOT + "sounds");
         try {
             String response = client.executeGet();
+            Log.d("RECORD_MODEL", response);
             onResponse.invoke(response);
         } catch (Exception e) {
             e.printStackTrace();
